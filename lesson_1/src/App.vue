@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="My Calculator"/>
+    <!--<HelloWorld msg="My Calculator"/>-->
+    <MyCalculator></MyCalculator>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//import HelloWorld from './components/HelloWorld.vue';
+import MyCalculator from './components/MyCalculator.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    MyCalculator,
+    },
 }
 </script>
 

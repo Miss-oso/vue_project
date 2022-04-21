@@ -1,64 +1,80 @@
 <template>
   <div id="app">
-     <h1>My personal costs</h1>
-     <Add-cost-module :maxCostID="maxCostID" @addCost="addCostToCosts()"/>
-    <CostsTable :costs="costs"/>
+    <div class="wrapper">
+      <header>
+        <div class="title">My personal costs</div>
+        <div> My total {{ getFPV }}</div>
+      </header>
+     <main>
+        <button @click="showForm">{{ textBtn }}</button>
+        <div v-show="showBtnAdd">
+          <AddPaymentForm @addNewPayment="addData" />
+        </div>
+        <PaymentDisplay :list="currentElements" />
+        <MyPagination
+          :length="paymentsList.length"
+          :n="n"
+          :cur="cur"
+          @changePage="onChangePage"/>
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-import CostsTable from './components/CostsTable.vue'
-import AddCostModule from './components/AddCostModule.vue'
+import MyPagination from './components/MyPagination.vue'
+import PaymentDisplay from './components/PaymentDisplay.vue'
+import AddPaymentForm from './components/AddPaymentForm.vue'
   
   export default {
   name: 'App',
   components: {
-    CostsTable,
-    AddCostModule
+    MyPagination,
+    PaymentDisplay,
+    AddPaymentForm,
   },
 
-data(){
-      return {
-        costs: [],
-        maxCostID: '',
+data() {
+    return {
+      showBtnAdd: false,
+      textBtn: "Показать форму",
+      n: 5,
+      cur: 1,
+    };
+  },
+  methods: {
+    showForm() {
+      if (this.showBtnAdd === false) {
+        this.showBtnAdd = true;
+        this.textBtn = "Скрыть форму";
+      } else {
+        this.showBtnAdd = false;
+        this.textBtn = "Показать форму";
       }
     },
-    methods: {
-      fetchData(){
-        return [
-          {
-            id: '1',
-            date: '28.03.2020',
-            category: 'Food',
-            value: '169'
-          },
-          {
-            id: '2',
-            date: '24.03.2020',
-            category: 'Transport',
-            value: '360'
-          },
-          {
-            id: '3',
-            date: '24.03.2020',
-            category: 'Food',
-            value: '532'
-          },
-        ]
-      },
-      getMaxId(){
-        this.maxCostID = this.costs[this.costs.length - 1].id
-      },
-      addCostToCosts(cost){
-        console.log(cost);
-        this.costs = [...this.costs, cost]
-      }
+    addData(data) {
+      this.$store.commit("addDataPaymentList", data);
     },
-    created() {
-      this.costs = [...this.fetchData()];
-      this.getMaxId();
-    }
-  }
+    onChangePage(numberPage) {
+      this.cur = numberPage;
+    },
+  },
+  created() {
+    // this.$store.commit('getDataApp', this.fetchData())
+    this.$store.dispatch("fetchData");
+  },
+  computed: {
+    paymentsList() {
+      return this.$store.getters.getPaymentList;
+    },
+    currentElements() {
+      return this.paymentsList.slice(
+        this.n * (this.cur - 1),
+        this.n * (this.cur - 1) + this.n
+      );
+    },
+  },
+};
 </script>
 
 <style>
@@ -69,5 +85,9 @@ data(){
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.title {
+  font-size: 30px;
+  margin-bottom: 50px;
 }
 </style>

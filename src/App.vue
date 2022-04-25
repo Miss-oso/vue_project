@@ -1,93 +1,52 @@
 <template>
   <div id="app">
-    <div class="wrapper">
-      <header>
-        <div class="title">My personal costs</div>
-        <div> My total {{ getFPV }}</div>
-      </header>
-     <main>
-        <button @click="showForm">{{ textBtn }}</button>
-        <div v-show="showBtnAdd">
-          <AddPaymentForm @addNewPayment="addData" />
-        </div>
-        <PaymentDisplay :list="currentElements" />
-        <MyPagination
-          :length="paymentsList.length"
-          :n="n"
-          :cur="cur"
-          @changePage="onChangePage"/>
-      </main>
-    </div>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/dashboard">Dashboard</router-link> |
+      <router-link to="/about">About</router-link>
+      <hr />
+      <div>
+        <router-link to="/add/payment/Food?value=200" 
+          >Добавить платеж категории Food с ценой 200</router-link
+        ><br />
+        <router-link to="/add/payment/Transport?value=50"
+          >Добавить платеж категории Transport с ценой 50</router-link
+        ><br />
+        <router-link to="/add/payment/Entertainment?value=2000"
+          >Категория Entertainment с ценой 2000</router-link
+        >
+      </div>
+    </nav>
+    <router-view />
   </div>
 </template>
 
 <script>
-import MyPagination from './components/MyPagination.vue'
-import PaymentDisplay from './components/PaymentDisplay.vue'
-import AddPaymentForm from './components/AddPaymentForm.vue'
+export default {
   
-  export default {
-  name: 'App',
-  components: {
-    MyPagination,
-    PaymentDisplay,
-    AddPaymentForm,
-  },
-
-data() {
-    return {
-      showBtnAdd: false,
-      textBtn: "Показать форму",
-      n: 5,
-      cur: 1,
-    };
-  },
-  methods: {
-    showForm() {
-      if (this.showBtnAdd === false) {
-        this.showBtnAdd = true;
-        this.textBtn = "Скрыть форму";
-      } else {
-        this.showBtnAdd = false;
-        this.textBtn = "Показать форму";
-      }
-    },
-    addData(data) {
-      this.$store.commit("addDataPaymentList", data);
-    },
-    onChangePage(numberPage) {
-      this.cur = numberPage;
-    },
-  },
   created() {
     // this.$store.commit('getDataApp', this.fetchData())
     this.$store.dispatch("fetchData");
   },
-  computed: {
-    paymentsList() {
-      return this.$store.getters.getPaymentList;
-    },
-    currentElements() {
-      return this.paymentsList.slice(
-        this.n * (this.cur - 1),
-        this.n * (this.cur - 1) + this.n
-      );
-    },
-  },
-};
+}
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-.title {
-  font-size: 30px;
-  margin-bottom: 50px;
+nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>

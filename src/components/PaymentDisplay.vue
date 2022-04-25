@@ -12,12 +12,12 @@ export default {
   props: {
     list: {
       type: Array,
-      default: ()=>[]
+      default: () => [],
     },
   },
 };
 </script>
 
 
-<style>
+<style scoped>
 </style>

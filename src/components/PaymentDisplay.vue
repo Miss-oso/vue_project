@@ -15,9 +15,38 @@ export default {
       default: () => [],
     },
   },
+   methods: {
+    editItem(item) {
+      console.log(item);
+    },
+    deleteItem(id) {
+      console.log(id);
+    },
+    onClickContextItem(event, item) {
+      const items = [
+        {
+          text: "Edit",
+          action: () => {
+            this.editItem(item);
+          },
+        },
+        {
+          text: "Delete",
+          action: () => {
+            this.deleteItem(item.id);
+          },
+        },
+      ];
+      this.$contextMenu.show({event, items})
+    },
+  },
 };
 </script>
-
-
-<style scoped>
+<style lang="scss" scoped>
+.action {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
 </style>
+};

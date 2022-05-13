@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import DashboardView from '../views/DashboardView.vue'
-import AddFormView from '../views/AddFormView.vue'
-
-
+/* import HomeView from '../views/HomeView.vue' */
 
 Vue.use(VueRouter)
 
@@ -12,18 +8,27 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    /* component: HomeView, */
+    component: () => import(/* webpackChunkName: "HomeView" */ '@/views/HomeView.vue'),
+    props: true,
   },
   {
-    path: '/dashboard',
-    name: 'PageDashboard',
-    component: DashboardView
+    path: '/page/:id',
+    name: 'currentPage',
+    component: () => import(/* webpackChunkName: "HomeView" */ '@/views/HomeView.vue'),
+    props: true,
   },
   {
-    path: '/add/payment/:Category',
-    name: 'AddFormView',
-    component: AddFormView,
-
+    path: '/newcost/payment/:category/:show',
+    name: 'newCost',
+    component: () => import(/* webpackChunkName: "HomeView" */ '@/views/HomeView.vue'),
+    props: true,
+  },
+  {
+    path: '/newcost/payment/:category/:value/:show',
+    name: 'newCostFull',
+    component: () => import(/* webpackChunkName: "HomeView" */ '@/views/HomeView.vue'),
+    props: true,
   },
   {
     path: '/about',
@@ -41,6 +46,16 @@ const router = new VueRouter({
   routes
 })
 
-
+// Предотвращение возникновения ошибки избыточной маршрутизации.
+// keep original function
+/* const _push = router.__proto__.push
+// then override it
+router.__proto__.push = function push(...args) {
+  return _push.call(this, ...args)
+    .catch(error => {
+      // avoid NavigationDuplicated
+      if (error.name !== 'NavigationDuplicated') throw error
+    })
+} */
 
 export default router

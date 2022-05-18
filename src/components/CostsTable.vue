@@ -5,34 +5,24 @@
     :headers="headers"
     :items="costs"
     item-key="id"
+    item-directive="v-click-count"
     hide-default-footer
   >
-    <template v-slot:[`item.actions`]="{ item }">
-      <v-icon small @click="choiceItemTable(item, $event)"> settings </v-icon>
+    <template v-slot:item="{ item }">
+      <tr v-click-count :class="item.id">
+        <td class="text-center">{{ item.id }}</td>
+        <td class="text-center">{{ item.date }}</td>
+        <td class="text-center">{{ item.category }}</td>
+        <td class="text-end">{{ item.value }}</td>
+        <td class="text-center">
+          <v-icon small @click="choiceItemTable(item, $event)">
+            settings
+          </v-icon>
+        </td>
+      </tr>
     </template>
   </v-data-table>
 </template>
-
-  <!-- <table class="costs__table">
-    <tr>
-      <th class="costs__table__th">#</th>
-      <th class="costs__table__th">Date</th>
-      <th class="costs__table__th">Category</th>
-      <th class="costs__table__th">Value</th>
-    </tr>
-    <tr class="costs__table__tr" v-for="(cost, id) in costs" :key="id">
-      <td class="costs__table__td num">{{ cost.id }}</td>
-      <td class="costs__table__td date">{{ cost.date }}</td>
-      <td class="costs__table__td cat">{{ cost.category }}</td>
-      <td class="costs__table__td val">{{ cost.value }}</td>
-      <td class="costs__table__td btn">
-        <a href="#" class="cost-item-btn" @click="choiceItemTable($event)">{{
-          "..."
-        }}</a>
-      </td>
-    </tr>
-  </table> -->
-<!-- </template> -->
 
 <script>
 import { mapGetters, mapMutations } from "vuex";

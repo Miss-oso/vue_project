@@ -16,7 +16,7 @@
       <v-col class="d-flex" cols="12">
         <v-btn
           type="submit"
-          color="teal"
+          color="indigo lighten-3"
           dark
           x-large
           class="font-weight-bold p-0"

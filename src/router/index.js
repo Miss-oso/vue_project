@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-/* import HomeView from '../views/HomeView.vue' */
+/*import HomeView from '../views/HomeView.vue'*/
 
 Vue.use(VueRouter)
 
@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    /* component: HomeView, */
+    /*component: HomeView*/
     component: () => import(/* webpackChunkName: "HomeView" */ '@/views/HomeView.vue'),
     props: true,
   },
@@ -45,17 +45,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-// Предотвращение возникновения ошибки избыточной маршрутизации.
-// keep original function
-/* const _push = router.__proto__.push
-// then override it
-router.__proto__.push = function push(...args) {
-  return _push.call(this, ...args)
-    .catch(error => {
-      // avoid NavigationDuplicated
-      if (error.name !== 'NavigationDuplicated') throw error
-    })
-} */
 
 export default router

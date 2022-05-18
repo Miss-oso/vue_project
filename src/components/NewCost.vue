@@ -41,7 +41,7 @@
         <v-btn
           v-show="createCost"
           type="submit"
-          color="teal"
+          color="indigo lighten-3"
           dark
           x-large
           class="font-weight-bold p-0"
@@ -53,7 +53,7 @@
         <v-btn
           v-show="editCost"
           type="submit"
-          color="teal"
+          color="indigo lighten-3"
           dark
           x-large
           class="font-weight-bold p-0"
@@ -65,7 +65,7 @@
         <v-btn
           v-show="editCost"
           @click="onCloseForm"
-          color="teal"
+          color="indigo lighten-3"
           dark
           x-large
           class="font-weight-bold p-0 ml-4"
